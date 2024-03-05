@@ -1,0 +1,19 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args:
+  - 'build'
+  - '--tag=gcloud-custom'
+  - '.'
+- name: 'gcloud-custom'
+  args:
+  - 'container'
+  - 'clusters'
+  - 'get-credentials'
+  - 'gke-standard-demo-dev'
+  - '--region=us-central1'
+- name: 'gcloud-custom'
+  entrypoint: helm
+  args:
+  - 'install'
+  - 'test'
+  - './dummy-chart/'
